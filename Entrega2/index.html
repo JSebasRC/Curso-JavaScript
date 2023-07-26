@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" href="" type="image/x-icon">
+   <link rel="stylesheet" href="../Entrega2/assets/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../Entrega2/assets/css/style.css" />
+   <title>Tienda</title>
+</head>
+
+<body>
+   <header class="container pt-5">
+      <h1 class="text-danger fw-bold">Tienda de verduras</h1>
+      <h2 class="">hola, bienvenido a su tienda de frutas y verduras online</h2>
+   </header>
+   <main>
+      <section class="container">
+         <select class="form-select" aria-label="Default select example" id="tipoProducto">
+            <option selected value="0">Todo</option>
+            <option value="Fruta">Frutas</option>
+            <option value="Verdura">Verduras</option>
+         </select>
+      </section>
+      <section class="container">
+         <div class="d-flex justify-content-center" id="contenedorProductos"></div>
+      </section>
+      <section class="container">
+         <h2>Su compra:</h2>
+         <ul id="listaCarrito"></ul>
+         <p id="carritoTotal"></p>
+         <form class="d-flex flex-column w-50 gap-2" id="formCompraFinal">
+            <label for="nombre">Nombre:</label>
+            <input required type="text" name="nombre">
+            <label for="email">Correo:</label>
+            <input required type="email" name="email">
+            <label for="telefono">Teléfono:</label>
+            <input required type="number" name="telefono">
+            <input type="submit" value="Comprar" class="btn btn-primary" id="botonCompraFinal">
+         </form>
+      </section>
+   </main>
+   <!-- Etiquetas script -->
+   <script src="./assets/js/bootstrap.bundle.min.js"></script>
+   <script type="text/javascript" src="./assets/js/tienda.js"></script>
+</body>
+
+</html>
