@@ -72,10 +72,13 @@ const agregarCarrito = (objetoCarrito) => {
    totalCarrito();
    // Muestra el total del carrito en la interfaz en tiempo real
    const carritoTotalElement = document.getElementById("carritoTotal");
-   carritoTotalElement.innerHTML = `Precio total: $ ${carritoTotal}`;
+   carritoTotalElement.innerHTML = `Total a pagar: $${carritoTotal.toFixed(3)}`;
+   // Guardar el nuevo array de carrito en el localStorage cada vez que haya cambios
+   localStorage.setItem('carrito', JSON.stringify(carrito));
 };
 
 const renderizarCarrito = () => {
+   const resumenCompra = document.getElementById("resumenCompra");
    const listaCarrito = document.getElementById("listaCarrito");
    // Creamos un fragmento (fragment) para evitar múltiples actualizaciones del DOM
    const fragmento = document.createDocumentFragment();
@@ -84,8 +87,18 @@ const renderizarCarrito = () => {
    listaCarrito.innerHTML = "";
 
    carrito.forEach(({ name, price, quantity, id }) => {
-      const elementoLista = document.createElement("li");
-      elementoLista.innerHTML = `Producto: ${name} -- P/u: ${price} -- Cant.: ${quantity} <button data-id="${id}">X</button>`;
+      const totalPrice = price*quantity;
+      const elementoLista = document.createElement("tr");
+      resumenCompra.innerHTML = '<h3>Resumen de compra</h3>';
+      elementoLista.classList.add("fw-light");
+      elementoLista.innerHTML = `
+         <th>${id}</th> 
+         <th>${name}</th> 
+         <th>${price.toFixed(3)}</th> 
+         <th>${quantity}</th> 
+         <th>${totalPrice.toFixed(3)}</th> 
+      `
+
       fragmento.appendChild(elementoLista);
    });
 
@@ -111,6 +124,9 @@ const borrarCarrito = () => {
    carrito = []; // Vaciamos el carrito simplemente asignando un nuevo array vacío
    localStorage.removeItem("carrito"); // Removemos el carrito del localStorage
    renderizarCarrito(); // Actualizamos la interfaz de usuario con el carrito vacío
+   
+   // También debes eliminar el carrito del array local y guardar los cambios
+   localStorage.setItem('carrito', JSON.stringify(carrito));
 };
 
 const renderizarProductos = (arrayUtilizado) => {
@@ -125,20 +141,25 @@ const renderizarProductos = (arrayUtilizado) => {
       const prodCard = document.createElement("div");
       prodCard.classList.add("col-xs");
       prodCard.classList.add("card");
-      prodCard.style = "width: 270px;height: 550px; margin:3px";
+      prodCard.classList.add("p-3");
+      prodCard.classList.add("h-auto");
+      prodCard.classList.add("border");
+      prodCard.classList.add("border-success");
+      prodCard.classList.add("border-2");
+      prodCard.style = "width: 270px; margin:3px";
       prodCard.id = id;
       prodCard.innerHTML = `
        <img src="../../../Entrega2/assets/images/${name}.jpg" alt="${name}">
        <div>
-           <h5>${name}</h5>
+           <h4 class="text-success fw-bold">${name}</h4>
            <h6>${type}</h6>
-           <p>${description}</p>
-           <span>Stock: ${stock}</span>
-           <span>$ ${price}</span>
+           <p class="fw-bold">${description}</p>
+           <span>Stock: <span class="text-danger fw-bold">${stock}</span></span>
+           <p>Price $ <span class="text-success fw-bold">${price.toFixed(3)}</span></p>
            <form id="form${id}">
-               <label for="contador${id}">Cantidad</label>
-               <input type="number" placeholder="0" id="contador${id}">
-               <button class="btn btn-primary" data-id="${id}">Agregar</button>
+               <label for="contador${id}">Cantidad:</label>
+               <input class="p-1 mt-2 w-50 border border-success border-2 rounded" type="number" placeholder="0" id="contador${id}">
+               <button class="btn btn-success mt-2" data-id="${id}">Agregar</button>
            </form>
        </div>`;
       fragmento.appendChild(prodCard);
